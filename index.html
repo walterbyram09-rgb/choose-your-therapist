@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Massage Booking System</title>
+
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -11,12 +12,14 @@ body {
   background: #f4f6f8;
   color: #333;
 }
+
 header {
   background: #2c3e50;
   color: white;
   padding: 20px;
   text-align: center;
 }
+
 .container {
   max-width: 650px;
   margin: 30px auto;
@@ -25,11 +28,13 @@ header {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
+
 label {
   font-weight: bold;
   display: block;
   margin-top: 15px;
 }
+
 select, button {
   width: 100%;
   padding: 10px;
@@ -38,11 +43,13 @@ select, button {
   border: 1px solid #ccc;
   font-size: 14px;
 }
+
 .price {
   margin-top: 15px;
   font-size: 18px;
   font-weight: bold;
 }
+
 button {
   background: #27ae60;
   color: white;
@@ -51,9 +58,11 @@ button {
   cursor: pointer;
   font-size: 16px;
 }
+
 button:hover {
   background: #219150;
 }
+
 .note {
   font-size: 13px;
   margin-top: 15px;
@@ -62,6 +71,7 @@ button:hover {
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -96,18 +106,19 @@ button:hover {
 
   <div class="note">
     <strong>Safe & Secure Booking:</strong><br>
-    All payments are processed through PayPal’s secure system. Your information is protected and never shared. This is a trusted and safe booking system.
+    All payments are processed through PayPal’s secure system.
   </div>
 
 </div>
 
 <script>
+// update price
 function updatePrice() {
   const duration = document.getElementById('duration').value;
   document.getElementById('priceDisplay').innerText = "Total Price: $" + duration;
 }
 
-// Generate next 7 days
+// load next 7 days
 function loadDates() {
   const dateSelect = document.getElementById('date');
   const today = new Date();
@@ -124,22 +135,25 @@ function loadDates() {
   }
 }
 
-// Generate time slots
+// load time slots
 function loadTimes() {
   const timeSelect = document.getElementById('time');
 
-  let start = 9; // 9 AM
-  let end = 20;  // 8 PM
+  let start = 9;  // 9 AM
+  let end = 20;   // 8 PM
 
   for (let h = start; h <= end; h++) {
-    let option1 = document.createElement('option');
-    option1.value = h + ":00";
-    option1.text = (h > 12 ? h - 12 : h) + ":00 " + (h >= 12 ? "PM" : "AM");
+    let option = document.createElement('option');
+    option.value = h + ":00";
 
-    timeSelect.appendChild(option1);
+    option.text =
+      (h > 12 ? h - 12 : h) + ":00 " + (h >= 12 ? "PM" : "AM");
+
+    timeSelect.appendChild(option);
   }
 }
 
+// booking function
 function bookNow() {
   const therapist = document.getElementById('therapist').value;
   const duration = document.getElementById('duration').value;
@@ -152,16 +166,23 @@ function bookNow() {
   }
 
   const paypalUsername = "walterbyram82";
+  const url = `https://www.paypal.com/paypalme/${paypalUsername}/${duration}`;
 
-  const url = https://www.paypal.com/paypalme/${paypalUsername}/${duration};
-
-  alert(Booking Confirmed:\nTherapist: ${therapist}\nDate: ${date}\nTime: ${time}\nAmount: $${duration});
+  alert(`Booking Confirmed:
+Therapist: ${therapist}
+Date: ${date}
+Time: ${time}
+Amount: $${duration}`);
 
   window.open(url, "_blank");
 }
 
-loadDates();
-loadTimes();
+// run on page load
+window.onload = function () {
+  loadDates();
+  loadTimes();
+  updatePrice();
+};
 </script>
 
 </body>
