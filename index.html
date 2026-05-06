@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Massage Booking</title>
+<title>Massage Booking System</title>
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -18,7 +18,7 @@ header {
   text-align: center;
 }
 .container {
-  max-width: 600px;
+  max-width: 650px;
   margin: 30px auto;
   background: white;
   padding: 20px;
@@ -36,6 +36,7 @@ select, button {
   margin-top: 5px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  font-size: 14px;
 }
 .price {
   margin-top: 15px;
@@ -71,9 +72,9 @@ button:hover {
 
   <label for="therapist">Choose Therapist</label>
   <select id="therapist">
-    <option>Walter Byram</option>
-    <option>Benjamin Smith</option>
-    <option>Mark Martin</option>
+    <option value="Walter Byram">Walter Byram</option>
+    <option value="Benjamin Smith">Benjamin Smith</option>
+    <option value="Mark Martin">Mark Martin</option>
   </select>
 
   <label for="duration">Choose Massage Duration</label>
@@ -83,35 +84,84 @@ button:hover {
     <option value="130">120 Minutes - $130</option>
   </select>
 
+  <label for="date">Select Date</label>
+  <select id="date"></select>
+
+  <label for="time">Select Time</label>
+  <select id="time"></select>
+
   <div class="price" id="priceDisplay">Total Price: $70</div>
 
   <button onclick="bookNow()">BOOK NOW</button>
 
   <div class="note">
-    <strong>Safe & Secure Booking:</strong> 
-    All payments are processed through PayPal’s secure checkout system, ensuring your information is protected. 
-    Your privacy and safety are our priority, and we provide a professional and trusted service experience.
+    <strong>Safe & Secure Booking:</strong><br>
+    All payments are processed through PayPal’s secure system. Your information is protected and never shared. This is a trusted and safe booking system.
   </div>
 
 </div>
 
 <script>
 function updatePrice() {
-  const duration = document.getElementById('duration');
-  const price = duration.value;
-  document.getElementById('priceDisplay').innerText = "Total Price: $" + price;
+  const duration = document.getElementById('duration').value;
+  document.getElementById('priceDisplay').innerText = "Total Price: $" + duration;
+}
+
+// Generate next 7 days
+function loadDates() {
+  const dateSelect = document.getElementById('date');
+  const today = new Date();
+
+  for (let i = 0; i < 7; i++) {
+    let d = new Date();
+    d.setDate(today.getDate() + i);
+
+    let option = document.createElement('option');
+    option.value = d.toISOString().split('T')[0];
+    option.text = d.toDateString();
+
+    dateSelect.appendChild(option);
+  }
+}
+
+// Generate time slots
+function loadTimes() {
+  const timeSelect = document.getElementById('time');
+
+  let start = 9; // 9 AM
+  let end = 20;  // 8 PM
+
+  for (let h = start; h <= end; h++) {
+    let option1 = document.createElement('option');
+    option1.value = h + ":00";
+    option1.text = (h > 12 ? h - 12 : h) + ":00 " + (h >= 12 ? "PM" : "AM");
+
+    timeSelect.appendChild(option1);
+  }
 }
 
 function bookNow() {
   const therapist = document.getElementById('therapist').value;
-  const duration = document.getElementById('duration');
-  const price = duration.value;
+  const duration = document.getElementById('duration').value;
+  const date = document.getElementById('date').value;
+  const time = document.getElementById('time').value;
+
+  if (!date || !time) {
+    alert("Please select date and time.");
+    return;
+  }
 
   const paypalUsername = "walterbyram82";
-  const url = https://www.paypal.com/paypalme/${paypalUsername}/${price};
+
+  const url = https://www.paypal.com/paypalme/${paypalUsername}/${duration};
+
+  alert(Booking Confirmed:\nTherapist: ${therapist}\nDate: ${date}\nTime: ${time}\nAmount: $${duration});
 
   window.open(url, "_blank");
 }
+
+loadDates();
+loadTimes();
 </script>
 
 </body>
