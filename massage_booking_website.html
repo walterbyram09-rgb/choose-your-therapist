@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Massage Booking</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f6f8;
+  color: #333;
+}
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+.container {
+  max-width: 600px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+label {
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+}
+select, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.price {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+button {
+  background: #27ae60;
+  color: white;
+  border: none;
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+button:hover {
+  background: #219150;
+}
+.note {
+  font-size: 13px;
+  margin-top: 15px;
+  color: #555;
+  line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Relax & Rejuvenate Massage Booking</h1>
+</header>
+
+<div class="container">
+
+  <label for="therapist">Choose Therapist</label>
+  <select id="therapist">
+    <option>Walter Byram</option>
+    <option>Benjamin Smith</option>
+    <option>Mark Martin</option>
+  </select>
+
+  <label for="duration">Choose Massage Duration</label>
+  <select id="duration" onchange="updatePrice()">
+    <option value="70">60 Minutes - $70</option>
+    <option value="100">90 Minutes - $100</option>
+    <option value="130">120 Minutes - $130</option>
+  </select>
+
+  <div class="price" id="priceDisplay">Total Price: $70</div>
+
+  <button onclick="bookNow()">BOOK NOW</button>
+
+  <div class="note">
+    <strong>Safe & Secure Booking:</strong> 
+    All payments are processed through PayPal’s secure checkout system, ensuring your information is protected. 
+    Your privacy and safety are our priority, and we provide a professional and trusted service experience.
+  </div>
+
+</div>
+
+<script>
+function updatePrice() {
+  const duration = document.getElementById('duration');
+  const price = duration.value;
+  document.getElementById('priceDisplay').innerText = "Total Price: $" + price;
+}
+
+function bookNow() {
+  const therapist = document.getElementById('therapist').value;
+  const duration = document.getElementById('duration');
+  const price = duration.value;
+
+  const paypalUsername = "walterbyram82";
+  const url = `https://www.paypal.com/paypalme/${paypalUsername}/${price}`;
+
+  window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
