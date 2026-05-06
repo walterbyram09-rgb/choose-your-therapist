@@ -30,7 +30,7 @@ label {
   display: block;
   margin-top: 15px;
 }
-select, button {
+select, input, button {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -85,10 +85,10 @@ button:hover {
   </select>
 
   <label for="date">Select Date</label>
-  <select id="date"></select>
+  <input type="date" id="date" />
 
   <label for="time">Select Time</label>
-  <select id="time"></select>
+  <input type="time" id="time" />
 
   <div class="price" id="priceDisplay">Total Price: $70</div>
 
@@ -107,39 +107,6 @@ function updatePrice() {
   document.getElementById('priceDisplay').innerText = "Total Price: $" + duration;
 }
 
-// Generate next 7 days
-function loadDates() {
-  const dateSelect = document.getElementById('date');
-  const today = new Date();
-
-  for (let i = 0; i < 7; i++) {
-    let d = new Date();
-    d.setDate(today.getDate() + i);
-
-    let option = document.createElement('option');
-    option.value = d.toISOString().split('T')[0];
-    option.text = d.toDateString();
-
-    dateSelect.appendChild(option);
-  }
-}
-
-// Generate time slots
-function loadTimes() {
-  const timeSelect = document.getElementById('time');
-
-  let start = 9; // 9 AM
-  let end = 20;  // 8 PM
-
-  for (let h = start; h <= end; h++) {
-    let option1 = document.createElement('option');
-    option1.value = h + ":00";
-    option1.text = (h > 12 ? h - 12 : h) + ":00 " + (h >= 12 ? "PM" : "AM");
-
-    timeSelect.appendChild(option1);
-  }
-}
-
 function bookNow() {
   const therapist = document.getElementById('therapist').value;
   const duration = document.getElementById('duration').value;
@@ -153,15 +120,12 @@ function bookNow() {
 
   const paypalUsername = "walterbyram82";
 
-  const url = `https://www.paypal.com/paypalme/${paypalUsername}/${duration}`;
+  const url = https://www.paypal.com/paypalme/${paypalUsername}/${duration};
 
-  alert(`Booking Confirmed:\nTherapist: ${therapist}\nDate: ${date}\nTime: ${time}\nAmount: $${duration}`);
+  alert(Booking Confirmed:\nTherapist: ${therapist}\nDate: ${date}\nTime: ${time}\nAmount: $${duration});
 
   window.open(url, "_blank");
 }
-
-loadDates();
-loadTimes();
 </script>
 
 </body>
