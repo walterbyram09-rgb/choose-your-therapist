@@ -1,130 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Massage Booking System</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rejuvenate Massage</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f4f6f8;
-  color: #333;
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
 }
-header {
-  background: #2c3e50;
-  color: white;
-  padding: 20px;
-  text-align: center;
+.container{
+    background:white;
+    width:90%;
+    max-width:500px;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+    text-align:center;
 }
-.container {
-  max-width: 650px;
-  margin: 30px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+h1,h2{
+    color:#333;
 }
-label {
-  font-weight: bold;
-  display: block;
-  margin-top: 15px;
+button{
+    background:#28a745;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
 }
-select, input, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+button:hover{
+    background:#218838;
 }
-.price {
-  margin-top: 15px;
-  font-size: 18px;
-  font-weight: bold;
+select,input{
+    width:100%;
+    padding:12px;
+    margin:15px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
 }
-button {
-  background: #27ae60;
-  color: white;
-  border: none;
-  margin-top: 20px;
-  cursor: pointer;
-  font-size: 16px;
+.page{
+    display:none;
 }
-button:hover {
-  background: #219150;
+.page.active{
+    display:block;
 }
-.note {
-  font-size: 13px;
-  margin-top: 15px;
-  color: #555;
-  line-height: 1.4;
+.error{
+    color:#c82333;
+    font-weight:bold;
 }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Relax & Rejuvenate Massage Booking</h1>
-</header>
-
 <div class="container">
 
-  <label for="therapist">Choose Therapist</label>
-  <select id="therapist">
-    <option value="Walter Byram">Walter Byram</option>
-    <option value="Benjamin Smith">Benjamin Smith</option>
-    <option value="Mark Martin">Mark Martin</option>
-  </select>
+    <!-- PAGE 1 -->
+    <div id="page1" class="page active">
+        <h1>Rejuvenate Massage</h1>
+        <p>Welcome to Rejuvenate Massage.</p>
+        <button onclick="nextPage(2)">BOOK NOW</button>
+    </div>
 
-  <label for="duration">Choose Massage Duration</label>
-  <select id="duration" onchange="updatePrice()">
-    <option value="70">60 Minutes - $70</option>
-    <option value="100">90 Minutes - $100</option>
-    <option value="130">120 Minutes - $130</option>
-  </select>
+    <!-- PAGE 2 -->
+    <div id="page2" class="page">
+        <h2>Choose a Therapist</h2>
 
-  <label for="date">Select Date</label>
-  <input type="date" id="date" />
+        <select id="therapist">
+            <option value="">Select Therapist</option>
+            <option>Walter Byram</option>
+            <option>Mike King</option>
+            <option>Benjamin Smith</option>
+        </select>
 
-  <label for="time">Select Time</label>
-  <input type="time" id="time" />
+        <button onclick="goToPaypal()">CONTINUE</button>
+    </div>
 
-  <div class="price" id="priceDisplay">Total Price: $70</div>
+    <!-- PAGE 3 -->
+    <div id="page3" class="page">
+        <h2>PayPal Information</h2>
 
-  <button onclick="bookNow()">BOOK NOW</button>
+        <input type="text" id="paypal"
+        placeholder="Enter PayPal Username or Email">
 
-  <div class="note">
-    <strong>Safe & Secure Booking:</strong><br>
-    All payments are processed through PayPal’s secure system. Your information is protected and never shared. This is a trusted and safe booking system.
-  </div>
+        <button onclick="submitReservation()">SUBMIT</button>
+    </div>
+
+    <!-- PAGE 4 -->
+    <div id="page4" class="page">
+        <h1 class="error">INVALID RESERVATION</h1>
+
+        <p>
+            Your reservation is currently invalid due to payment issues.
+        </p>
+
+        <p>
+            Please contact your therapist for assistance, guidance,
+            or further instructions regarding your reservation.
+        </p>
+
+        <p>
+            Thank you for your understanding.
+        </p>
+    </div>
 
 </div>
 
 <script>
-function updatePrice() {
-  const duration = document.getElementById('duration').value;
-  document.getElementById('priceDisplay').innerText = "Total Price: $" + duration;
+function nextPage(pageNumber){
+    document.querySelectorAll('.page').forEach(page=>{
+        page.classList.remove('active');
+    });
+    document.getElementById('page'+pageNumber).classList.add('active');
 }
 
-function bookNow() {
-  const therapist = document.getElementById('therapist').value;
-  const duration = document.getElementById('duration').value;
-  const date = document.getElementById('date').value;
-  const time = document.getElementById('time').value;
+function goToPaypal(){
+    let therapist = document.getElementById('therapist').value;
 
-  if (!date || !time) {
-    alert("Please select date and time.");
-    return;
-  }
+    if(therapist === ""){
+        alert("Please select a therapist.");
+        return;
+    }
 
-  const paypalUsername = "walterbyram82";
+    nextPage(3);
+}
 
-  const url = https://www.paypal.com/paypalme/${paypalUsername}/${duration};
+function submitReservation(){
+    let paypal = document.getElementById('paypal').value.trim();
 
-  alert(Booking Confirmed:\nTherapist: ${therapist}\nDate: ${date}\nTime: ${time}\nAmount: $${duration});
+    if(paypal === ""){
+        alert("Please enter your PayPal username or email.");
+        return;
+    }
 
-  window.open(url, "_blank");
+    nextPage(4);
 }
 </script>
 
